@@ -35,9 +35,9 @@ export function AdminLayout({  children,
           router.push('/');
         }
       } else {
-        if (router.pathname !== '/admin') {
-          router.push('/admin');
-        }
+        // if (router.pathname !== '/admin') {
+        //   router.push('/admin');
+        // }
       }
     }
   }, [router, profile, fistLoading]);

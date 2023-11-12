@@ -170,15 +170,16 @@ export function DataTable<TData, TValue>({
         >
           Previous
         </Button>
+        <div style={{ background: 'white' }}>
         <Button
-          variant='outline'
-          size='sm'
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          style={{ background: 'white' }}
-        >
-          Next
-        </Button>
+    variant='outline'
+    size='sm'
+    onClick={() => table.nextPage()}
+    disabled={!table.getCanNextPage()}
+  >
+    Next
+  </Button>
+</div>
       </div>
     </>
   )

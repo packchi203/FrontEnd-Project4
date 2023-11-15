@@ -62,7 +62,7 @@ export function Welcome() {
                       d='M12.507 14.501a1 1 0 11-1.415-1.414l8.485-8.485a1 1 0 111.415 1.414l-8.485 8.485z'></path>
                   </g>
                 </svg>
-                Theo dõi các chủ đề.
+                Theo dõi các Community.
               </a>
             </Link>
             <Link href={'/tai-khoan/cai-dat'}>

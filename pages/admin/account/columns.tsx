@@ -4,13 +4,13 @@ import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from './ui/dropdown-menu'
+} from '../ui/dropdown-menu'
 
 export type User = {
   id: number;

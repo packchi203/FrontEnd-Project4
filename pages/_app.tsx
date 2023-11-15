@@ -25,10 +25,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         shouldRetryOnError: false,
       }}>
       <SEO
-        title='Diễn Đàn IT'
-        icon='https://res.cloudinary.com/dduc7th-dec/image/upload/v1668651315/093229b8-a724-4c4b-80bc-33b1d0d39ff9_dnnkvb.png'
-        description='Nơi để nhận giải đáp cho mọi câu hỏi, nơi để chia sẻ kiến thức, nơi để đọc, để suy ngẫm và để vui'
-        keywords={['Hỏi đáp IT', 'Chia sẻ kiến thức', 'Học IT']}
+        title='Blackdit'
+        keywords={[]}
       />
       <GoogleAnalytics measurementId='G-F2V2QR1BPJ' />
       <ThemeProvider attribute="class">

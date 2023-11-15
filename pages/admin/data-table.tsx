@@ -171,7 +171,7 @@ export function DataTable<TData, TValue>({
           Previous
         </Button>
         <div style={{ background: 'white' }}>
-        <Button
+  <Button
     variant='outline'
     size='sm'
     onClick={() => table.nextPage()}

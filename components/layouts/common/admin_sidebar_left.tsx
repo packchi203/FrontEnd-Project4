@@ -17,44 +17,42 @@ import {
   BookmarkIcon,
 } from '@heroicons/react/24/outline'
 import { useAuth } from '@/hooks'
-import { useTagsFollow } from '@/hooks/use-tag'
-import { TagForSidebar } from '@/components/tags_for_sidebar'
 
 type Props = {}
-export function SidebarLeft({}: Props) {
+export function AdminSidebarLeft({}: Props) {
   const { asPath } = useRouter()
   const { profile } = useAuth()
   const menu = [
     {
-      title: 'Trang Chủ',
-      href: '/',
+      title: 'Dashboard',
+      href: '/admin',
       icon: HomeIcon,
       display: true,
     },
-    // {
-    //   title: 'Hỏi đáp',
-    //   href: '/tag/hoi-dap',
-    //   icon: QuestionMarkCircleIcon,
-    //   display: true,
-    // },
-    // {
-    //   title: 'Thảo luận',
-    //   href: '/tag/thao-luan',
-    //   icon: ChatBubbleLeftRightIcon,
-    //   display: true,
-    // },
     {
       title: 'Community',
-      href: '/tags',
+      href: '/admin/community',
+      icon: QuestionMarkCircleIcon,
+      display: true,
+    },
+    {
+      title: 'Posts',
+      href: '/admin/posts',
+      icon: ChatBubbleLeftRightIcon,
+      display: true,
+    },
+    {
+      title: 'Reports',
+      href: '/admin/report',
       icon: TagIcon,
       display: true,
     },
-    // {
-    //   title: 'Giới thiệu',
-    //   href: '/gioi-thieu',
-    //   icon: FireIcon,
-    //   display: true,
-    // },
+    {
+      title: 'Account',
+      href: '/admin/account',
+      icon: FireIcon,
+      display: true,
+    },
   ]
   return (
     <aside className='w-full sticky top-[85px] z-10 mt-5 mb-5 bg-white dark:bg-slate-900 border rounded-lg dark:border-gray-500'>
@@ -84,11 +82,7 @@ export function SidebarLeft({}: Props) {
               )
           )}
         </ul>
-        <div>
-          <div className='pt-4 mt-4 space-y-2   border-t border-gray-200 dark:border-gray-700'>
-            <TagForSidebar />
-          </div>
-        </div>
+    
       </div>
     </aside>
   )

@@ -6,3 +6,6 @@ export * from './search_popup'
 export * from './loader'
 export * from './component_request_auth'
 export * from './totop'
+
+export * from './admin_navbar'
+export * from './admin_sidebar_left'

@@ -5,9 +5,8 @@ import { LayoutProps } from '@/models'
 import {
   Footer,
   Loader,
-  Navbar,
-  SidebarLeft,
-  SidebarRight,
+  Admin_Navbar,
+  AdminSidebarLeft,
   Totop,
 } from '@/components/layouts/common'
 
@@ -44,7 +43,7 @@ export function AdminLayout({  children,
   if (!profile) return <p>Loading</p>
   return (
     <div className=' bg-gray-100 dark:bg-black pt-16'>
-      <Navbar />
+      <Admin_Navbar/>
     
       {!profile?.name && requestAuth ? (
         <Loader />
@@ -53,7 +52,7 @@ export function AdminLayout({  children,
           <div className='flex-grow relative w-full min-h-screen md:max-w-[90rem] lg:max-w-[100rem]	mx-auto lg:flex'>
             {sidebarLeft && (
               <div className='relative min-h-screen pr-5 hidden lg:block xl:flex-shrink-0 xl:w-80 0'>     
-                <SidebarLeft />
+                <AdminSidebarLeft />
               </div>
             )}
 

@@ -55,7 +55,7 @@ export function Footer({}: Props) {
         <span className='block text-sm text-gray-500 sm:text-center dark:text-gray-400'>
           © 2022{' '}
           <a className='hover:underline'>
-            Diễn Đàn IT™
+           Blackdit
           </a>
           . All Rights Reserved.
         </span>

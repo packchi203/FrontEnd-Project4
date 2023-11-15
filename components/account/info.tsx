@@ -237,7 +237,7 @@ export function UseInfo({
             <div className='rounded-lg border bg-white mb-3 '>
               <div className='py-3 px-3 border-b border-gray-300'>
                 <h3 className='font-medium text-gray-700 text-md'>
-                  Kỹ năng/Ngôn ngữ lập trình
+                  Tiểu sử
                 </h3>
               </div>
               <div className='px-3 py-3 text-gray-600'>

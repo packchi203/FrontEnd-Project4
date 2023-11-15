@@ -1,5 +1,7 @@
 // components/DataTable.tsx
 import React from 'react';
+import { adminApi } from 'api-client/admin-api'; // Import từ admin_api.tsx
+
 
 interface User {
   id: number;
@@ -12,14 +14,24 @@ interface User {
 }
 
 interface DataTableProps {
-  data: User[] | null; // Thêm kiểu dữ liệu cho data, có thể là mảng hoặc null
+  data: User[] | null;
+  accessToken: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data }) => {
+const DataTable: React.FC<DataTableProps> = ({ data, accessToken }) => {
+  // ... (phần còn lại của mã)
   if (!data || !Array.isArray(data)) {
     // Nếu data không phải là mảng hoặc là null, trả về thông báo hoặc hiển thị gì đó khác
     return <p>No data available.</p>;
   }
+  const fetchData = async () => {
+    try {
+      const response = await adminApi.getAccounts(); // Sử dụng hàm từ adminApi
+      // ... (phần còn lại của mã)
+    } catch (error) {
+      console.error('Lỗi khi truy xuất dữ liệu:', error);
+    }
+  };
 
   return (
     <table>

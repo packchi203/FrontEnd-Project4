@@ -4,21 +4,25 @@ import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from './ui/dropdown-menu'
+} from '../ui/dropdown-menu'
 
 export type User = {
-  id: number;
-  name: string;
-  email: string;
-  username: string;
-  reputation: number;
-  role: string;
+  id: number,
+  icon:string,
+  color_bg:string,
+  name: string,
+  desc: string,
+  tag_follow_count: number,
+  follow: boolean,
+  posts_use:number,
+  bg_color:string,
+  important:boolean
   createdAt: string;
 }
 
@@ -38,20 +42,20 @@ export const columns: ColumnDef<User>[] = [
     }
   },
   {
-    accessorKey: 'email',
-    header: 'Email'
+    accessorKey: 'icon',
+    header: 'Icon'
   },
   {
-    accessorKey: 'username',
-    header: 'username'
+    accessorKey: 'desc',
+    header: 'desciption'
   },
   {
-    accessorKey: 'reputation',
-    header: 'Reputation'
+    accessorKey: 'tag_follow_count',
+    header: 'Follower'
   },
   {
-    accessorKey: 'role',
-    header: 'Role'
+    accessorKey: 'posts_use',
+    header: 'Posts'
   },
   {
     accessorKey: 'createdAt',
@@ -97,10 +101,10 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' style={{ background: 'white' }}>
-        <DropdownMenuItem>View Account</DropdownMenuItem>
-        <DropdownMenuItem>Edit Account</DropdownMenuItem>
+        <DropdownMenuItem>View </DropdownMenuItem>
+        <DropdownMenuItem>Edit </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDelete} style={{ color: 'red' }}>
-          Delete Account
+          Delete 
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

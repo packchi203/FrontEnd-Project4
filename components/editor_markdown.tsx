@@ -28,14 +28,14 @@ export function EditorMarkdown({value, onChange, Option }: EditorMarkdownProps) 
         'bold',
         'italic',
         'heading-bigger',
-        '|',
-        'quote',
-        'code',
-        'horizontal-rule',
+        // '|',
+        // 'quote',
+        // 'code',
+        // 'horizontal-rule',
         '|',
         'unordered-list',
         'ordered-list',
-        'table',
+        // 'table',
         '|',
         'upload-image',
         'link',
@@ -45,19 +45,19 @@ export function EditorMarkdown({value, onChange, Option }: EditorMarkdownProps) 
           className: 'fa fa-youtube-play', // Look for a suitable icon
           title: 'Youtube embed',
         },
-        {
-          name: 'codepenEmbed',
-          action: codepenEmbed,
-          className: 'fa fa-codepen', // Look for a suitable icon
-          title: 'Codepen embed',
-        },
-        '|',
+        // {
+        //   name: 'codepenEmbed',
+        //   action: codepenEmbed,
+        //   className: 'fa fa-codepen', // Look for a suitable icon
+        //   title: 'Codepen embed',
+        // },
+        // '|',
         // 'side-by-side',
         // 'fullscreen',
         // '|',
-        'guide',
+        // 'guide',
       ],
-      placeholder: 'Nhập Nội Dung... ( Markdown )',
+      placeholder: 'Nhập Nội Dung... ',
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Option?.autosave&&1000])
@@ -91,7 +91,7 @@ export function EditorMarkdown({value, onChange, Option }: EditorMarkdownProps) 
 
   function youtubeEmbed(editor: any) {
     var cm = editor.codemirror
-    let url = prompt('Nhập đường dẫn hoặc id Youtube:', '')
+    let url = prompt('Nhập đường dẫn Youtube:', '')
     var output = ''
     if (url == null || url == '') {
       output = ''

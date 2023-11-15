@@ -1,8 +1,11 @@
+// components/colum/index.tsx
 
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
 
 import { Button } from '../ui/button'
 import {
@@ -11,71 +14,71 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu'
-
-import { Account } from '@/models/account';
-import { TagModel } from "@/models/tag"
-
-
 export interface Post{
-  id: number
-  title?: string
-  slug?: string
-  tags?: Array<TagModel>
-  content?: string
-  author?: Account
-  createdAt?: string
-  commentCount?: number
-  voteCount?: number
-  viewCount?:number
+  id: number;
+  title: string;
+  slug: string;
+  tags: { name: string }[];
+  content: string;
+  account: { name: string };
+  commentCount: number;
+  viewCount: number;
+  voteCount: number;
+  createdAt: string;
 }
-
 export const columns: ColumnDef<Post>[] = [
   {
-    accessorKey: 'title', // Thay đổi 'name' thành 'title' hoặc tên cột thực tế trong dữ liệu
-    header: ({ column }) => {
-      return (
-        <Button
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          title
-          <ArrowUpDown className='ml-2 h-4 w-4' />
-        </Button>
-      )
-    }
+    accessorKey: 'title',
+    header: ({ column }) => (
+      <Button onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        Title <ArrowUpDown className='ml-2 h-4 w-4' />
+      </Button>
+    ),
   },
   {
     accessorKey: 'tags',
-    header: 'Community'
+    header: 'Community',
+    cell: ({ row }) => (
+      <td>{row.original.tags.map((tag) => tag.name).join(', ')}</td>
+    ),
   },
-  {
-    accessorKey: 'content',
-    header: 'content'
-  },
+  // {
+  //   accessorKey: 'content',
+  //   header: 'Content',
+  //   cell: ({ row }) => {
+  //     const content = row.original.content;
+  //     const truncatedContent = content.length > 100 ? `${content.slice(0, 100)}...` : content;
+  //     return <td>{truncatedContent}</td>;
+  //   },
+  // },
   {
     accessorKey: 'author',
-    header: 'Author'
+    header: 'Author',
+    cell: ({ row }) => <td>{row.original.account.name}</td>,
   },
   {
     accessorKey: 'commentCount',
-    header: 'Comment Count'
+    header: 'Comment Count',
   },
+
   {
     accessorKey: 'voteCount',
-    header: 'Vote Count'
+    header: 'Vote Count',
   },
   {
     accessorKey: 'viewCount',
-    header: 'View Count'
+    header: 'View Count',
   },
   {
     accessorKey: 'createdAt',
     header: 'Created At',
     cell: ({ row }) => {
-      const date = new Date(String(row.getValue('createdAt')))
-      const formatted = date.toLocaleDateString()
-      return <div className='font-medium'>{formatted}</div>
-    }
+      const date = new Date(String(row.getValue('createdAt')));
+      const formatted = date.toLocaleDateString();
+      return <div className='font-medium'>{formatted}</div>;
+    },
   },
+ 
  // ...
 
  {
@@ -85,7 +88,7 @@ export const columns: ColumnDef<Post>[] = [
     const post = row.original; // Đổi tên user thành post để phản ánh mục đích
     const handleDelete = () => {
       // Hiển thị thông báo xác nhận
-      toast.warn(`Are you sure you want to delete the post for ${post.title}?`, {
+      toast.warn(`Are you sure you want to delete the post for ${post.id}?`, {
         position: 'top-right',
         autoClose: false,
         hideProgressBar: false,

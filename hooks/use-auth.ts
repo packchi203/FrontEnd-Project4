@@ -1,7 +1,8 @@
-import useSWR from 'swr'
-import { PublicConfiguration } from 'swr/dist/types'
-import { authApi } from '@/api-client'
-import { LoginModelProps } from '@/models/login'
+import React from 'react';
+import useSWR from 'swr';
+import { PublicConfiguration } from 'swr/dist/types';
+import { authApi } from '@/api-client';
+import { LoginModelProps } from '@/models/login';
 
 export function useAuth(option?: Partial<PublicConfiguration>) {
   const {

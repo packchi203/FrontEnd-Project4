@@ -9,10 +9,12 @@ function classNames(...classes: any) {
 }
 import {
   HomeIcon,
-  FireIcon,
-  TagIcon,
+  UserCircleIcon,
   QuestionMarkCircleIcon,
   ChatBubbleLeftRightIcon,
+  DocumentTextIcon,
+  FireIcon,
+  TagIcon,
   ChartPieIcon,
   BookmarkIcon,
 } from '@heroicons/react/24/outline'
@@ -30,6 +32,12 @@ export function AdminSidebarLeft({}: Props) {
       display: true,
     },
     {
+      title: 'Account',
+      href: '/admin/account',
+      icon: UserCircleIcon,
+      display: true,
+    },
+    {
       title: 'Community',
       href: '/admin/community',
       icon: QuestionMarkCircleIcon,
@@ -44,15 +52,10 @@ export function AdminSidebarLeft({}: Props) {
     {
       title: 'Reports',
       href: '/admin/report',
-      icon: TagIcon,
+      icon: DocumentTextIcon,
       display: true,
     },
-    {
-      title: 'Account',
-      href: '/admin/account',
-      icon: FireIcon,
-      display: true,
-    },
+
   ]
   return (
     <aside className='w-full sticky top-[85px] z-10 mt-5 mb-5 bg-white dark:bg-slate-900 border rounded-lg dark:border-gray-500'>

@@ -301,7 +301,7 @@ export function Navbar({}: NavbarProps) {
                             id='price'
                             disabled={true}
                             className='focus:ring-indigo-500 cursor-pointer  focus:border-indigo-500 block w-full pl-3 pr-44 py-2 font-medium sm:text-sm border-gray-300 rounded-md'
-                            placeholder={'Tìm kiếm... (Ctrl + alt + k)'}
+                            placeholder={'Tìm kiếm... '}
                           />
                         </div>
 

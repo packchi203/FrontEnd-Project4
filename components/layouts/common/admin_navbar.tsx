@@ -59,32 +59,32 @@ export function Admin_Navbar({}: NavbarProps) {
     setSearchIsOpen(status)
   }
   const handleClickChangeTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+    setTheme(theme === 'dark' ? 'dark' : 'dark')
   }
   useHotkeys('ctrl+alt+k', () => setSearchIsOpen(true))
   const menu = [
     { title: 'Dashboard', href: '/admin/', current: asPath === '/admin/' },
-    {
-      title: 'Hỏi đáp',
-      href: '/admin',
-      current: asPath === '/tag/hoi-dap',
-    },
+    // {
+    //   title: 'Hỏi đáp',
+    //   href: '/admin',
+    //   current: asPath === '/tag/hoi-dap',
+    // },
     // {
     //   title: 'Thảo luận',
     //   href: '/tag/thao-luan',
     //   current: asPath === '/tag/thao-luan',
     // },
-    {
-      title: 'Bookmarks',
-      href: '/bookmarks',
-      current: asPath === '/bookmarks',
-    },
-    { title: 'Community', href: '/tags', current: asPath === '/tags' },
-    {
-      title: 'Giới thiệu',
-      href: '/gioi-thieu',
-      current: asPath === '/gioi-thieu',
-    },
+    // {
+    //   title: 'Bookmarks',
+    //   href: '/bookmarks',
+    //   current: asPath === '/bookmarks',
+    // },
+    // { title: 'Community', href: '/tags', current: asPath === '/tags' },
+    // {
+    //   title: 'Giới thiệu',
+    //   href: '/gioi-thieu',
+    //   current: asPath === '/gioi-thieu',
+    // },
   ]
   const handleLogout = async () => {
     await logout()

@@ -66,22 +66,6 @@ export function Posts({
     } catch (err) {
       console.log(err)
     }
-
-
-
-    const { profile } = useAuth();
-    const handleBookmark = async (e: any) => {
-      e.preventDefault();
-      try {
-        setStatusBookmark(!statusBookmark);
-        let res = await bookmarkPost(id);
-        if (res.status == 200) {
-          setStatusBookmark(res.data);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
   }
   useEffect(() => {
     if (!profile?.name) {

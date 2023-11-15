@@ -26,6 +26,7 @@ export function FunctionallyButtons({
 }: PropsComponent) {
   const router = useRouter()
   const [statusBookmark, setStatusBookmark] = useState(isBookmark)
+  const [openLoginModal, setOpenLoginModal] = useState(false)
   const { profile, fistLoading } = useAuth()
   const [load, setLoad] = useState(false)
   const [share, setShare] = useState(false)
@@ -168,7 +169,9 @@ export function FunctionallyButtons({
           </Transition>
         </Menu>
         <ComponentRequestAuth>
-          <button className='flex items-center mr-2 text-sm p-1 text-gray-500 hover:bg-gray-200 rounded-sm'>
+          <button className='flex items-center mr-2 text-sm p-1 text-gray-500 hover:bg-gray-200 rounded-sm'
+             onClick={() => setOpenLoginModal(true)}
+             >
             <FlagIcon className='w-5 h-5 text-gray-400' />
             <span className='ml-1 font-medium hidden md:block'>Báo cáo</span>
           </button>

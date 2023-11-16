@@ -3,6 +3,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import { Button } from '../ui/button'
 import {
@@ -12,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '../ui/dropdown-menu'
 
-export type User = {
+export type Tag = {
   id: number,
   icon:string,
   color_bg:string,
@@ -26,40 +28,54 @@ export type User = {
   createdAt: string;
 }
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Tag>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
       return (
         <Button
-         
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Name
-          <ArrowUpDown className='ml-2 h-4 w-4' />
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}  > Name <ArrowUpDown className='ml-2 h-4 w-4' />
         </Button>
       )
     }
   },
-  {
-    accessorKey: 'icon',
-    header: 'Icon'
-  },
+  // {
+  //   accessorKey: 'icon',
+  //   header: 'Icon'
+  // },
   {
     accessorKey: 'desc',
     header: 'desciption'
   },
   {
     accessorKey: 'tag_follow_count',
-    header: 'Follower'
+    header: ({ column }) => {
+      return (
+        <Button
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}  > Follow <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    }
   },
   {
     accessorKey: 'posts_use',
-    header: 'Posts'
+    header: ({ column }) => {
+      return (
+        <Button
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}  > Post <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    }
   },
   {
     accessorKey: 'createdAt',
-    header: 'Created At',
+    header: ({ column }) => {
+      return (
+        <Button
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}  > Create At <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const date = new Date(String(row.getValue('createdAt')))
       const formatted = date.toLocaleDateString()
@@ -72,23 +88,44 @@ export const columns: ColumnDef<User>[] = [
   header: 'Actions',
   id: 'actions',
   cell: ({ row }) => {
-    const user = row.original;
+    const tag = row.original;
     const handleDelete = () => {
-      // Hiển thị thông báo xác nhận
-      toast.warn(`Are you sure you want to delete the account for ${user.name}?`, {
-        position: 'top-right',
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        closeButton: true,
-        onClose: () => {
-          // Xử lý xác nhận xóa ở đây
-          // Nếu người dùng đồng ý xóa, thực hiện hành động xóa
-          // Nếu không, bạn có thể không cần thực hiện gì cả hoặc đóng modal/xác nhận
-        },
+      confirmAlert({
+        message: `Are you sure you want to delete the account for "${tag.name}"?`, 
+        buttons: [
+          {
+            label: 'No',
+            onClick: () => {
+              // Tag clicked 'No', do nothing or add additional logic if needed
+              toast.info('Deletion canceled.', {
+                position: 'top-left',
+                autoClose: 300,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            },
+          },
+          {
+            label: 'Yes',
+            onClick: () => {
+              // Tag clicked 'Yes', proceed with the delete action
+              // Implement your delete logic here
+              toast.success(`${tag.name}'s account has been deleted successfully.`, {
+                position: 'top-right',
+                autoClose: 300,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            },
+          },
+         
+        ],
       });
     };
     return (

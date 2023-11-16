@@ -4,7 +4,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 
 import { Button } from '../ui/button'
@@ -58,23 +59,23 @@ export const columns: ColumnDef<Post>[] = [
   },
   {
     accessorKey: 'commentCount',
-    header: 'Comment Count',
+    header: 'Comments',
   },
 
   {
     accessorKey: 'voteCount',
-    header: 'Vote Count',
+    header: 'Vote',
   },
   {
     accessorKey: 'viewCount',
-    header: 'View Count',
+    header: 'View',
   },
   {
     accessorKey: 'createdAt',
     header: 'Created At',
     cell: ({ row }) => {
       const date = new Date(String(row.getValue('createdAt')));
-      const formatted = date.toLocaleDateString();
+      const formatted = ` ${date.toLocaleTimeString()} ${date.toLocaleDateString()}`;
       return <div className='font-medium'>{formatted}</div>;
     },
   },
@@ -85,23 +86,44 @@ export const columns: ColumnDef<Post>[] = [
   header: 'Actions',
   id: 'actions',
   cell: ({ row }) => {
-    const post = row.original; // Đổi tên user thành post để phản ánh mục đích
+    const post = row.original; // Đổi tên post thành post để phản ánh mục đích
     const handleDelete = () => {
-      // Hiển thị thông báo xác nhận
-      toast.warn(`Are you sure you want to delete the post for ${post.id}?`, {
-        position: 'top-right',
-        autoClose: false,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        closeButton: true,
-        onClose: () => {
-          // Xử lý xác nhận xóa ở đây
-          // Nếu người dùng đồng ý xóa, thực hiện hành động xóa
-          // Nếu không, bạn có thể không cần thực hiện gì cả hoặc đóng modal/xác nhận
-        },
+      confirmAlert({
+        message: `Are you sure you want to delete the account for "${post.id}"?`, 
+        buttons: [
+          {
+            label: 'No',
+            onClick: () => {
+              // User clicked 'No', do nothing or add additional logic if needed
+              toast.info('Deletion canceled.', {
+                position: 'top-left',
+                autoClose: 300,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            },
+          },
+          {
+            label: 'Yes',
+            onClick: () => {
+              // User clicked 'Yes', proceed with the delete action
+              // Implement your delete logic here
+              toast.success(`${post.id}'s account has been deleted successfully.`, {
+                position: 'top-right',
+                autoClose: 300,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            },
+          },
+         
+        ],
       });
     };
     return (

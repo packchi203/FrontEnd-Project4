@@ -36,7 +36,7 @@ export function Welcome() {
           </div>
           <div className='pb-5 px-9'>
             <div className='text-3xl font-medium mb-3 text-white'>
-              Cảm ơn bạn đã tham gia <br /> cộng đồng 😊.
+              Wellcome to <br /> Blackdit.
             </div>
             <Link href={'/bai-dang/them-moi'}>
               <a className='w-full flex text-lg mb-3 font-medium border rounded-lg items-center py-4 text-white bg-white/20 backdrop-blur-sm px-5'>

@@ -25,6 +25,7 @@ import {
 } from './ui/table'
 
 import {
+  DropdownMenuItem,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
@@ -46,7 +47,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-
+  const rowsPerPageOptions = [10, 25, 50, 100, 200]; 
   const table = useReactTable({
     data,
     columns,
@@ -79,7 +80,29 @@ export function DataTable<TData, TValue>({
             className='max-w-sm'
           />
         </div>
+        
 
+ {/* Rows per page dropdown */}
+ <DropdownMenu >
+          <DropdownMenuTrigger asChild style={{ background: 'white' }}>
+            <Button variant='outline' className='ml-2'>
+              Rows/Page
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end' style={{ background: 'white' }}>
+            {rowsPerPageOptions.map(option => (
+              <DropdownMenuItem
+                key={option}
+                onClick={() => table.setPageSize(Number(option))}
+                className='capitalize'
+              >
+                {option}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      
+        
         {/* Column visibility */}
         <DropdownMenu >
           <DropdownMenuTrigger asChild style={{ background: 'white' }}>

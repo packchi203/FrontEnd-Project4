@@ -1,0 +1,84 @@
+/* CreateTagForm.module.css */
+.createTagForm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 500px;/* Adjust the width as needed */
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .closeButton span {
+    display: block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+  }
+  
+  .createTagForm form {
+    margin-top: 20px;
+  }
+  
+  .createTagForm label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .createTagForm input , 
+  .createTagForm textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .createTagForm button {
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .createTagForm  button:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+  }
+  
+  /* CreateTagForm.module.css */
+.createTagButton {
+    display: flex;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .createTagButton i {
+    margin-right: 8px; /* Adjust the spacing between the icon and text */
+  }
+  

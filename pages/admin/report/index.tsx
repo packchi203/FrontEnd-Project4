@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react';
-import { User, columns } from '../columns';
+import { User, columns } from './columns';
 import { DataTable } from '../data-table';
 import { AdminLayout } from '@/components/layouts'
 import { NextPageWithLayout, PostModel } from '@/models'
@@ -17,7 +17,7 @@ const Home: NextPageWithLayout = () => {
     const fetchData = async () => {
       try {
         // Make sure to include the protocol (http/https)
-        const response = await fetch('http://localhost:8080/api/admin/accounts', {
+        const response = await fetch('http://http://localhost:8080/api/reports', {
           headers: {
             Authorization: `Bearer ${token}`, // Include the authentication token in the request headers
           },

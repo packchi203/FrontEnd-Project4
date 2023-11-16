@@ -1,18 +1,12 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { BlankLayout } from '@/components/layouts'
 import { FormIndex, SocialLogin } from '@/components/login'
-import { NextPageWithLayout } from '@/models'
 import { Modal } from '@/components'
-
-
-type LoginModalProps = {
+type ReportProps = {
   openModel: boolean
   handleOpen?: any
 }
 
-export function LoginModal({ openModel, handleOpen }: LoginModalProps) {
+export function Report({ openModel, handleOpen }: ReportProps) {
   const [isRegisterForm, setIsRegisterForm] = useState(false)
   return (
     <>
@@ -32,7 +26,11 @@ export function LoginModal({ openModel, handleOpen }: LoginModalProps) {
             </a>
             <span className='border-b w-1/5 lg:w-1/4'></span>
           </div>
-
+       
+            <FormIndex
+              loginSuccess={(value: any) => handleOpen(value ? false : true)}
+            />
+    
           <div className='mt-4 flex items-center justify-between'>
             <span className='border-b w-1/5 lg:w-1/4'></span>
             <a className='text-xs text-center text-gray-500 uppercase'>
@@ -41,35 +39,6 @@ export function LoginModal({ openModel, handleOpen }: LoginModalProps) {
                 : 'login with social account'}
             </a>
             <span className='border-b w-1/5 lg:w-1/4'></span>
-          </div>
-          <SocialLogin />
-          <div className='mt-4 flex items-center justify-between'>
-            <span className='border-b w-1/5 md:w-1/4'></span>
-            <a href='#' className='text-xs text-gray-500 uppercase'>
-              {isRegisterForm ? 'or sign up' : 'or login'}
-            </a>
-            <span className='border-b w-1/5 md:w-1/4'></span>
-          </div>
-          <div className='text-center'>
-            {isRegisterForm ? (
-              <span className='text-sm cursor-pointer'>
-                Bạn đã có tài khoản?{' '}
-                <a
-                  onClick={() => setIsRegisterForm(false)}
-                  className='text-red-500'>
-                  Đăng nhập
-                </a>
-              </span>
-            ) : (
-              <span className='text-sm cursor-pointer'>
-                Bạn chưa có tài khoản?{' '}
-                <a
-                  onClick={() => setIsRegisterForm(true)}
-                  className='text-red-500'>
-                  Đăng ký
-                </a>
-              </span>
-            )}
           </div>
         </div>
       </Modal>

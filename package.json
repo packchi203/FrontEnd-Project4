@@ -43,6 +43,7 @@
     "next-themes": "^0.2.1",
     "raw-body": "^2.5.1",
     "react": "18.2.0",
+    "react-confirm-alert": "^3.0.6",
     "react-connection-notification": "^0.1.2",
     "react-countdown": "^2.3.2",
     "react-dom": "18.2.0",

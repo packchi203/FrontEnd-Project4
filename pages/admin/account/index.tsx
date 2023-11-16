@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react';
-import { User, columns } from '../columns';
+import { User, columns } from './columns';
 import { DataTable } from '../data-table';
 import { AdminLayout } from '@/components/layouts'
 import { NextPageWithLayout, PostModel } from '@/models'

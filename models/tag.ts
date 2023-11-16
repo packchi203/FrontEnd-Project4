@@ -9,5 +9,6 @@ export interface TagModel {
      follow: boolean,
      posts_use:number,
      bg_color:string,
-     important:boolean
+     important:boolean,
+     createdAt:string
 }

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React, { useState, useEffect } from 'react';
 import { Post, columns } from './columns';
-import { DataTable } from '../data-table';
+import { DataTable } from './data-table';
 import { AdminLayout } from '@/components/layouts'
 import { NextPageWithLayout, PostModel } from '@/models'
 
@@ -16,26 +16,26 @@ const Home: NextPageWithLayout = () => {
 
     const fetchData = async () => {
       try {
-       
         const response = await fetch('http://localhost:8080/api/posts/list', {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the authentication token in the request headers
+            Authorization: `Bearer ${token}`,
           },
         });
     
         if (!response.ok) {
           // Handle error response
-          console.error(`Error fetching data: ${response.statusText}`);
-          return;
+          const errorMessage = await response.text(); // Assuming the server sends a meaningful error message
+          throw new Error(errorMessage);
         }
     
         const result: Post[] = await response.json();
-        // Đảo ngược danh sách trước khi cập nhật state
         setData(result.reverse());
       } catch (error) {
         console.error('Error fetching data:', error);
+        // Handle the error, e.g., show a user-friendly error message
       }
     };
+    
     
     const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setToken(event.target.value);

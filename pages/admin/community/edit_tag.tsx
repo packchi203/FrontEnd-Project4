@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './edit_account.module.css'; 
-
-interface CreateTagFormProps {
-  onCancel: () => void;
-  onSubmit: (newTag: Tag) => Promise<void>; 
-}
 interface Tag {
   id: number;
   name: string,
@@ -14,27 +9,24 @@ interface Tag {
   posts_use:number,
   createdAt: string;
 }
+interface EditTagFormProps {
+  tag: Tag;
+  onCancel: () => void;
+  onSubmit: (updatedTag: Tag) => Promise<void>; 
+}
 
-const CreateTagForm: React.FC<CreateTagFormProps> = ({ onCancel, onSubmit }) => {
-  const [newTag, setNewTag] = useState<Tag>({
-    id: 0,
-    name: '',
-    desc: '',
-    tag_follow_count: 0,
-    posts_use: 0,
-    createdAt: '',
-  });
+const EditTagForm: React.FC<EditTagFormProps> = ({ tag, onCancel, onSubmit }) => {
+  const [updatedTag, setUpdatedTag] = useState<Tag>({ ...tag });
   const [error, setError] = useState<string | null>(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setNewTag((prevTag) => ({ ...prevTag, [name]: value }));
+    setUpdatedTag((prevTag) => ({ ...prevTag, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (Object.values(newTag).some((value) => {
+    if (Object.values(updatedTag).some((value) => {
       if (typeof value === 'string') {
         return !value.trim(); // Check if the string is empty or consists only of whitespace
       }
@@ -45,25 +37,36 @@ const CreateTagForm: React.FC<CreateTagFormProps> = ({ onCancel, onSubmit }) => 
       });
       return;
     }
+  
 
     // Reset error message
     setError(null);
 
     // Call the onSubmit function
-    await onSubmit(newTag);
+    await onSubmit(updatedTag);
   };
 
   return (
     <div className={styles.editUserModal} style={modalStyles}>
+      
       <form onSubmit={handleSubmit} className={styles.editUserForm} style={formStyles}>
-        {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
         <label htmlFor="name">Name:</label>
         <input
           type="text"
           id="name"
           name="name"
-          value={newTag.name}
-          onChange={handleChange}
+          value={updatedTag.name}
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            if (inputValue.length <= 30) {
+              handleChange(e);
+            } else {
+              toast.error('Tên không được quá 30 kí tự.', {
+                icon: '❌',
+              });
+            }
+          }}
           maxLength={30}
         />
 
@@ -73,14 +76,23 @@ const CreateTagForm: React.FC<CreateTagFormProps> = ({ onCancel, onSubmit }) => 
           type="text"
           id="desc"
           name="desc"
-          value={newTag.desc}
-          onChange={handleChange}
+          value={updatedTag.desc}
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            if (inputValue.length <= 250) {
+              handleChange(e);
+            } else {
+              toast.error('Mô tả không được quá 250 kí tự.', {
+                icon: '❌',
+              });
+            }
+          }}
           maxLength={250}
         />
       
         <div className={styles.buttonContainer}>
-          <button type="button" onClick={onCancel}>Cancel</button>
-          <button type="submit">Create Tag</button>
+        <button type="button" onClick={onCancel}>Cancel</button>
+          <button type="submit">Update Tag</button>
         </div>
       </form>
     </div>
@@ -104,4 +116,4 @@ const formStyles: React.CSSProperties = {
   gap: '10px',
 };
 
-export default CreateTagForm;
+export default EditTagForm;

@@ -1,28 +1,15 @@
-
-import { useRouter } from 'next/router';
+import _ from 'lodash'
 import React, { useState, useEffect } from 'react';
+import { Post, columns } from './columns';
 import { DataTable } from './data-table';
 import { AdminLayout } from '@/components/layouts'
 import { NextPageWithLayout, PostModel } from '@/models'
-import EditPostForm from './edit_post';
-interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  tags: { name: string }[];
-  content: string;
-  account: { name: string };
-  commentCount: number;
-  viewCount: number;
-  voteCount: number;
-  createdAt: string;
-}
+import { getPosts, deletePost } from './api';
+
+
 const Home: NextPageWithLayout = () => {
-  const [data, setData] = useState<Post[]>([]);
-  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDM4NDA0Mn0.GiolGkFY74uweBihRIUSoO96I2YQteLbPQOM5eBDtUE');
-  const [showEditForm, setShowEditForm] = useState(false); // Add this line
-  const [editPost, setEditPost] = useState<Post | null>(null); // Add this line
-  const router = useRouter();
+  const [data, setData] = useState<Post[]>([]);3
+  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDM4NDA0Mn0.GiolGkFY74uweBihRIUSoO96I2YQteLbPQOM5eBDtUE'); // Added state for the authentication token
     useEffect(() => {
       fetchData();
     }, []);
@@ -48,7 +35,6 @@ const Home: NextPageWithLayout = () => {
         console.error('Error fetching data:', error);
       }
     };
-
     const handleDelete = async (postId: number) => {
       try {
         const response = await fetch(`http://localhost:8080/api/admin/posts/${postId}`, {
@@ -69,44 +55,8 @@ const Home: NextPageWithLayout = () => {
         console.error('Error deleting post:', error);
       }
     };
-    
-    const handleEdit = (postId: number) => {
-      const postToEdit = data.find((post) => post.id === postId);
-      if (postToEdit) {
-        setEditPost(postToEdit);
-        setShowEditForm(true);
-      }
-    };
-    const handleEditSubmit = async (updatedPost: Post) => {
-      try {
-        const response = await fetch(`http://localhost:8080/api/admin/posts/${updatedPost.id}`, {
-          method: 'PUT', // Use PUT for updating the entire resource
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedPost),
-        });
-    
-        if (!response.ok) {
-          console.error(`Error updating post: ${response.statusText}`);
-          return;
-        }
-    
-        // Update the data array with the updated post
-        setData((prevData) =>
-          prevData.map((post) => (post.id === updatedPost.id ? updatedPost : post))
-        );
-    
-        // Hide the edit form
-        setShowEditForm(false);
-      } catch (error) {
-        console.error('Error updating post:', error);
-      }
-    };
-    
-    
-  return (
+
+ return (
     <div>
     <h1>Post List</h1>
     <table>
@@ -133,26 +83,15 @@ const Home: NextPageWithLayout = () => {
             <td>{post.voteCount}</td>
             <td>{post.createdAt}</td>
             <td>
-            <button onClick={() => router.push(`/bai-dang/${post.slug}`)}>View Post</button>
-              <button onClick={() => handleEdit(post.id)}>Edit</button>
               <button onClick={() => handleDelete(post.id)}>Delete</button>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
-      {/* Add the following code to render the edit form conditionally */}
-      {showEditForm && editPost && (
-      <EditPostForm
-        post={editPost}
-        onCancel={() => setShowEditForm(false)}
-        onSubmit={handleEditSubmit}
-      />
-    )}
   </div>
   );
 }
-
 Home.Layout = AdminLayout
 Home.sidebarRight = true
 Home.SidebarLeft = true

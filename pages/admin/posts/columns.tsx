@@ -1,4 +1,4 @@
-// components/colum/index.tsx
+// components/column.tsx
 
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react'
@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu'
+import { useState } from 'react';
 export interface Post{
   id: number;
   title: string;
@@ -28,6 +29,7 @@ export interface Post{
   createdAt: string;
 }
 export const columns: ColumnDef<Post>[] = [
+
   {
     accessorKey: 'title',
     header: ({ column }) => (
@@ -40,18 +42,9 @@ export const columns: ColumnDef<Post>[] = [
     accessorKey: 'tags',
     header: 'Community',
     cell: ({ row }) => (
-      <td>{row.original.tags.map((tag) => tag.name).join(', ')}</td>
+      <td>{row.original.tags.map(tag => tag.name).join(', ')}</td>
     ),
   },
-  // {
-  //   accessorKey: 'content',
-  //   header: 'Content',
-  //   cell: ({ row }) => {
-  //     const content = row.original.content;
-  //     const truncatedContent = content.length > 100 ? `${content.slice(0, 100)}...` : content;
-  //     return <td>{truncatedContent}</td>;
-  //   },
-  // },
   {
     accessorKey: 'author',
     header: 'Author',
@@ -86,15 +79,15 @@ export const columns: ColumnDef<Post>[] = [
   header: 'Actions',
   id: 'actions',
   cell: ({ row }) => {
+    const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDM4NDA0Mn0.GiolGkFY74uweBihRIUSoO96I2YQteLbPQOM5eBDtUE'); // Added state for the authentication token
     const post = row.original; // Đổi tên post thành post để phản ánh mục đích
-    const handleDelete = () => {
+    const handleDelete = (postId: number) => {
       confirmAlert({
-        message: `Are you sure you want to delete the account for "${post.id}"?`, 
+        message: `Are you sure you want to delete the post with ID "${postId}"?`,
         buttons: [
           {
             label: 'No',
             onClick: () => {
-              // User clicked 'No', do nothing or add additional logic if needed
               toast.info('Deletion canceled.', {
                 position: 'top-left',
                 autoClose: 300,
@@ -109,23 +102,43 @@ export const columns: ColumnDef<Post>[] = [
           {
             label: 'Yes',
             onClick: () => {
-              // User clicked 'Yes', proceed with the delete action
-              // Implement your delete logic here
-              toast.success(`${post.id}'s account has been deleted successfully.`, {
-                position: 'top-right',
-                autoClose: 300,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+              // Handle the deletion without using an async function
+              fetch(`http://localhost:8080/api/admin/posts/${postId}`, {
+                method: 'DELETE',
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(`Error deleting post: ${response.statusText}`);
+                  }
+                  return response.text(); // Change to text() instead of json()
+                })
+                .then((data) => {
+                  console.log(data); // Log the response for debugging
+                  toast.success(`Post with ID ${postId} has been deleted successfully.`, {
+                    position: 'top-right',
+                    autoClose: 300,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                  // Implement logic to update the UI after deletion
+                  // This might involve fetching the updated data or updating the state directly
+                })
+                .catch((error) => {
+                  console.error('Error deleting post:', error);
+                });
             },
           },
-         
         ],
       });
     };
+    
+    
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild style={{ background: 'white' }}>
@@ -137,7 +150,7 @@ export const columns: ColumnDef<Post>[] = [
         <DropdownMenuContent align='end' style={{ background: 'white' }}>
           <DropdownMenuItem>View Post</DropdownMenuItem>
           <DropdownMenuItem>Edit Post</DropdownMenuItem>
-          <DropdownMenuItem onClick={handleDelete} style={{ color: 'red' }}>
+          <DropdownMenuItem onClick={() => handleDelete(post.id)} style={{ color: 'red' }}>
             Delete Post
           </DropdownMenuItem>
         </DropdownMenuContent>

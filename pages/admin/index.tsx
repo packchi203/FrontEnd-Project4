@@ -35,6 +35,14 @@ const Home: NextPageWithLayout = () => {
         console.error('Error fetching data:', error);
       }
     };
+    const handleDelete = async (postId: number) => {
+      // Similar implementation as in columns.tsx
+      // ...
+
+      // Update the state after successful deletion
+      fetchData();
+    };
+
     const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setToken(event.target.value);
     };
@@ -56,6 +64,7 @@ const Home: NextPageWithLayout = () => {
 
   return (
     <Content />
+  
   );
 }
 

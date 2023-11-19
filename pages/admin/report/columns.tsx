@@ -74,7 +74,7 @@ export const columns: ColumnDef<User>[] = [
     const user = row.original;
     const handleDelete = () => {
       confirmAlert({
-        message: `Are you sure you want to delete the account for "${user.name}"?`, 
+          message: `Are you sure you want to delete the account for ${user.name}?`, 
         buttons: [
           {
             label: 'No',
@@ -82,7 +82,7 @@ export const columns: ColumnDef<User>[] = [
               // User clicked 'No', do nothing or add additional logic if needed
               toast.info('Deletion canceled.', {
                 position: 'top-left',
-                autoClose: 300,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -98,7 +98,7 @@ export const columns: ColumnDef<User>[] = [
               // Implement your delete logic here
               toast.success(`${user.name}'s account has been deleted successfully.`, {
                 position: 'top-right',
-                autoClose: 300,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

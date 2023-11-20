@@ -8,6 +8,7 @@ import ConfirmationBox from './confirm';
 
 import styles from './edit_account.module.css'; 
 import toast from 'react-hot-toast';
+import CreateTagForm from './create_tag';
 
 
 interface Tag {
@@ -131,7 +132,11 @@ const Home: NextPageWithLayout = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newTag),
+        body: JSON.stringify({
+          name: newTag.name,
+          desc: newTag.desc,
+      
+        }),
       });
 
       if (!response.ok) {
@@ -244,7 +249,9 @@ const Home: NextPageWithLayout = () => {
   };
   return (
       <div className={styles.formContainer} >
-              <h1>Tag List</h1>
+              <h1>Community List</h1>
+              <button className={styles.searchButton} onClick={() => setShowCreateForm(true)}>Create Community</button>
+
             <div  className={styles.topTable}  >
             {showConfirmationBox && (
                   <div className={`${styles.confirmationBoxContainer} ${styles.backdropFilter}`}>
@@ -260,7 +267,7 @@ const Home: NextPageWithLayout = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className={styles.searchButton} onClick={handleSearch}>Search</button>
+                <button onClick={handleSearch}>Search</button>
               </div>
               <div className={styles.rowsPerPageContainer}>
                 <label htmlFor="rowsPerPage">Rows per page:</label>
@@ -282,7 +289,7 @@ const Home: NextPageWithLayout = () => {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Fesc</th>
+                <th>Description</th>
                 <th>Follower</th>
                 <th>Post</th>
                 <th>Created At</th>
@@ -317,6 +324,10 @@ const Home: NextPageWithLayout = () => {
               Next
             </button>
           </div>
+    
+      {showCreateForm && (
+        <CreateTagForm onCancel={() => setShowCreateForm(false)} onSubmit={handleCreateSubmit} />
+      )}
           {showEditForm && editTag && (
             <EditTagForm
               tag={editTag}

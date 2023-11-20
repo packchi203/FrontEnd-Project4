@@ -156,7 +156,7 @@ export function Content({ title }: ContentProps) {
   {/* -----------------ACCOUNT FAMOUS---------------------- */}
       <div className="relative mt-8 w-full overflow-hidden rounded-xl bg-white p-4 shadow-lg md:mr-2 md:w-3/12">
         <p className="mb-6 text-xl font-light text-gray-600">
-          Popular Investors
+          Popular Account
         </p>
         <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col items-center">
@@ -299,7 +299,7 @@ export function Content({ title }: ContentProps) {
         <a href="#" className="block h-full w-full">
           <div className="w-full">
             <p className="mb-4 text-2xl font-light text-gray-700">
-              Task Progress
+              Report
             </p>
             <div className="flex items-center justify-between text-sm text-gray-400">
               <p>Design</p>
@@ -335,7 +335,7 @@ export function Content({ title }: ContentProps) {
 
       <div className="relative mt-8 w-full overflow-hidden rounded-xl bg-white p-4 shadow-lg md:ml-4 md:w-4/12">
         <div className="mb-8 flex w-full items-center justify-between">
-          <p className="text-xl text-gray-800">Account</p>
+          <p className="text-xl text-gray-800">Popolar Tags</p>
           <a
             href="#"
             className="flex items-center border-0 text-sm text-gray-300 hover:text-gray-600 focus:outline-none"

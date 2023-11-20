@@ -177,7 +177,7 @@ const Home: NextPageWithLayout = () => {
   const handleSearch = () => {
     const filtered = data.filter(
       (report) =>
-        report.reason.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        report.reportType.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedStatus === 'ALL' || report.status === selectedStatus)
     );
     setFilteredData(filtered);
@@ -258,8 +258,8 @@ const Home: NextPageWithLayout = () => {
         <table className={styles.myTable}>
             <thead>
               <tr>
-                <th>reason</th>
-                <th>reportType</th>
+                <th>Detail</th>
+                <th>Report Type</th>
                 <th>Author</th>
                 <th>Post Slug</th>
                 <th>Status</th>

@@ -30,53 +30,64 @@ const CreateTagForm: React.FC<CreateTagFormProps> = ({ onCancel, onSubmit }) => 
     const { name, value } = e.target;
     setNewTag((prevTag) => ({ ...prevTag, [name]: value }));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (Object.values(newTag).some((value) => {
-      if (typeof value === 'string') {
-        return !value.trim(); // Check if the string is empty or consists only of whitespace
-      }
-      return false; // For non-string values
-    })) {
+  
+    if (!newTag.name.trim() || !newTag.desc.trim()) {
       toast.error('Vui lòng điền đầy đủ thông tin.', {
         icon: '❌',
       });
       return;
     }
-
+  
     // Reset error message
     setError(null);
-
+  
     // Call the onSubmit function
     await onSubmit(newTag);
   };
-
   return (
     <div className={styles.editUserModal} style={modalStyles}>
       <form onSubmit={handleSubmit} className={styles.editUserForm} style={formStyles}>
         {error && <p className={styles.error}>{error}</p>}
         <label htmlFor="name">Name:</label>
         <input
-          type="text"
-          id="name"
-          name="name"
-          value={newTag.name}
-          onChange={handleChange}
-          maxLength={30}
-        />
+            type="text"
+            id="name"
+            name="name"
+            value={newTag.name}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              if (inputValue.length <= 40) {
+                handleChange(e);
+              } else {
+                toast.error('Tên không được quá 40 kí tự.', {
+                  icon: '❌',
+                });
+              }
+            }}
+            maxLength={30}
+          />
 
         <label htmlFor="desc">Desc:</label>
         <input
-          placeholder='Enter description'
-          type="text"
-          id="desc"
-          name="desc"
-          value={newTag.desc}
-          onChange={handleChange}
-          maxLength={250}
-        />
+            placeholder='Enter description'
+            type="text"
+            id="desc"
+            name="desc"
+            value={newTag.desc}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              if (inputValue.length <= 250) {
+                handleChange(e);
+              } else {
+                toast.error('Mô tả không được quá 250 kí tự.', {
+                  icon: '❌',
+                });
+              }
+            }}
+            maxLength={250}
+          />
       
         <div className={styles.buttonContainer}>
           <button type="button" onClick={onCancel}>Cancel</button>

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import {
+  BellIcon,
   FlagIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline'
@@ -9,7 +10,6 @@ import { useAuth, useBookmarks } from '@/hooks'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Menu, Transition } from '@headlessui/react'
-
 interface PropsComponent {
   id: number
   isBookmark: boolean
@@ -27,15 +27,24 @@ export function FunctionallyButtons({
   const [share, setShare] = useState(false)
   const { bookmarkPost, bookmarkComment } = useBookmarks()
   let linkShare = 'https://itforum.site' + router?.asPath
+console.log('Thông tin người dùng:', profile);
+
   useEffect(() => {
-    console.log(router)
-    setStatusBookmark(isBookmark)
-  }, [isBookmark])
+    console.log('ID bài viết:', id);
+    console.log('Uername người dùng:', profile?.username);
+  }, [id, profile?.id]);
+
+  useEffect(() => {
+    console.log('Router:', router);
+    setStatusBookmark(isBookmark);
+  }, [isBookmark]);
+
   useEffect(() => {
     if (!profile?.name) {
       setStatusBookmark(false)
     }
   }, [profile?.name])
+  
   const handleBookmark = async (e: any) => {
     e.preventDefault()
     if (!profile.name) {

@@ -1,69 +1,315 @@
-import _ from 'lodash'
+
+import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import { User, columns } from './columns';
-import { DataTable } from '../data-table';
-import { AdminLayout } from '@/components/layouts'
-import { NextPageWithLayout, PostModel } from '@/models'
+import { AdminLayout } from '@/components/layouts';
+import { NextPageWithLayout } from '@/models';
+import EditReportForm from './edit_account';
+import ConfirmationBox from './confirm';
 
+import styles from './edit_account.module.css'; 
+import toast from 'react-hot-toast';
+
+
+interface Report {
+  id: number;
+  reason: string;
+  reportType: string;
+  account: { name: string };
+  postId: { slug: string };
+  status: string;
+  createdAt: string;
+}
 const Home: NextPageWithLayout = () => {
-  function Page() {
-    const [data, setData] = useState<User[] | null>(null);
+  const [data, setData] = useState<Report[]>([]);
+  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDk4OTA5MX0.KWqbqJo2fH2KeZj7tzMm6N01wpv6lId4931sYv3ACyU');
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editReport, setEditReport] = useState<Report | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [filteredData, setFilteredData] = useState<Report[]>([]); 
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const router = useRouter();
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const visibleData = filteredData.slice(startIndex, endIndex);
+  const [showConfirmationBox, setShowConfirmationBox] = useState(false);
+  const [selectedReportId, setSelectedReportId] = useState<number | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
+  
 
-    const [token, setToken] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDM4NDA0Mn0.GiolGkFY74uweBihRIUSoO96I2YQteLbPQOM5eBDtUE'); // Added state for the authentication token
-    useEffect(() => {
-      fetchData();
-    }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const statusQueryParam = selectedStatus !== 'ALL' ? `&status=${selectedStatus}` : '';
+      const response = await fetch(`http://localhost:8080/api/reports?${statusQueryParam}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const fetchData = async () => {
+      if (!response.ok) {
+        console.error(`Error fetching data: ${response.statusText}`);
+        return;
+      }
+      const result: Report[] = await response.json();
+      setData(result.reverse());
+        setFilteredData(result.reverse());
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStatus(e.target.value);
+  };
+  const handleDelete = (reportId: number) => {
+    setSelectedReportId(reportId);
+    setShowConfirmationBox(true);
+  };
+  
+  const performDelete = async () => {
+    // Perform the delete operation using the selected report ID
+    if (selectedReportId !== null) {
       try {
-        // Make sure to include the protocol (http/https)
-        const response = await fetch('http://http://localhost:8080/api/reports', {
+        const response = await fetch(`http://localhost:8080/api/reports/${selectedReportId}`, {
+          method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${token}`, // Include the authentication token in the request headers
+            Authorization: `Bearer ${token}`,
           },
         });
-    
+  
         if (!response.ok) {
-          // Handle error response
-          console.error(`Error fetching data: ${response.statusText}`);
+          // Display error toast if deletion fails
+          toast.error(`Error deleting report: ${response.statusText}`, {
+            icon: '❌',
+          });
           return;
         }
-    
-        const result: User[] = await response.json();
-        setData(result);
+  
+        // Remove the deleted report from both data and filteredData
+        setData((prevData) => prevData.filter((report) => report.id !== selectedReportId));
+        setFilteredData((prevFilteredData) =>
+          prevFilteredData.filter((report) => report.id !== selectedReportId)
+        );
+  
+        // Display success toast
+        toast.success('Report deleted successfully!', {
+          icon: '✅',
+        });
       } catch (error) {
-        console.error('Error fetching data:', error);
+        // Display error toast if an exception occurs
+        console.error('Error deleting report:', error);
+        toast.error('An error occurred while deleting the report.', {
+          icon: '❌',
+        });
+      } finally {
+        // Reset the selected report ID
+        setSelectedReportId(null);
       }
-    };
-    const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setToken(event.target.value);
-    };
+    }
+  };
+  
+  const handleConfirmationCancel = () => {
+    // Hide the confirmation box and reset the selected report ID
+    setShowConfirmationBox(false);
+    setSelectedReportId(null);
+  };
+  const handleConfirmationConfirm = () => {
+    performDelete();
+    // Hide the confirmation box
+    setShowConfirmationBox(false);
+  };
+  const handleEdit = (reportId: number) => {
+    const reportToEdit = data.find((report) => report.id === reportId);
+    if (reportToEdit) {
+      setEditReport(reportToEdit);
+      setShowEditForm(true);
+    }
+  };
+  const handleEditSubmit = async (updatedReport: Report) => {
+    try {
+      console.log('Dữ liệu được PUT lên:', updatedReport); 
+      const { reason, reportType, status } = updatedReport;
+      const updatedData = { reason, reportType, status };
+      const response = await fetch(`http://localhost:8080/api/reports/${updatedReport.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+      });
+  
+      if (!response.ok) {
+        // Hiển thị toast lỗi nếu việc cập nhật thất bại
+        console.error(`Error updating report: ${response.statusText}`);
+        toast.error(`Error updating report: ${response.statusText}`, {
+          icon: '❌',
+        });
+        return;
+      }
+      setData((prevData) =>
+        prevData.map((report) => (report.id === updatedReport.id ? updatedReport : report))
+      );
+      setFilteredData((prevFilteredData) =>
+        prevFilteredData.map((report) => (report.id === updatedReport.id ? updatedReport : report))
+      );
 
-    return (
-      <section className='py-24'>
-        <div className='container'>
-        <input type="text" value={token} onChange={handleTokenChange} />
-          <h1 className='mb-6 text-3xl font-bold'>All Users</h1>
-          {data ? (
-            <DataTable columns={columns} data={data} />
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
-      </section>
+      // Hiển thị toast thành công
+      toast.success('Report updated successfully!', {
+        icon: '✅',
+      });
+
+  
+      // Close the edit form
+      // Đóng form chỉnh sửa
+      setShowEditForm(false);
+    } catch (error) {
+      // Hiển thị toast lỗi nếu có lỗi
+      console.error('Error updating report:', error);
+      toast.error('An error occurred while updating the report.', {
+        icon: '❌',
+      });
+    }
+  };
+  const handleSearch = () => {
+    const filtered = data.filter(
+      (report) =>
+        report.reason.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedStatus === 'ALL' || report.status === selectedStatus)
     );
-  }
-
+    setFilteredData(filtered);
+  };
+  const handleRowsPerPageChange = (value: number) => {
+    setRowsPerPage(value);
+    setCurrentPage(1); // Reset current page when changing rows per page
+  };
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const formatDate = (dateString: string): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   return (
-    <>
-      <Page />
-      
-    </>
-  );
-}
+      <div className={styles.formContainer} >
+              <h1>Report List</h1>
+            <div  className={styles.topTable}  >
+            {showConfirmationBox && (
+  <div className={`${styles.confirmationBoxContainer} ${styles.backdropFilter}`}>
+    <ConfirmationBox onCancel={handleConfirmationCancel} onConfirm={handleConfirmationConfirm} />
+  </div>
+)}
 
-Home.Layout = AdminLayout
-Home.sidebarRight = true
-Home.SidebarLeft = true
-Home.requestAuth = false
-export default Home
+              <div className={styles.searchContainer}>
+                <input
+                  placeholder='Search by Name:'
+                  type="text"
+                  id="search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <select
+                  id="statusFilter"
+                  value={selectedStatus}
+                  onChange={handleStatusChange}
+                >
+                  <option value="ALL">All Statuss</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="RESOLVED">RESOLVED</option>
+                </select>
+                <button className={styles.searchButton} onClick={handleSearch}>
+                  Search
+                </button>
+              </div>
+
+              <div className={styles.rowsPerPageContainer}>
+                <label htmlFor="rowsPerPage">Rows per page:</label>
+                <select
+                  id="rowsPerPage"
+                  value={rowsPerPage}
+                  onChange={(e) => handleRowsPerPageChange(Number(e.target.value))}
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                  <option value={200}>200</option>
+                </select>
+              </div>
+            </div>
+
+        <table className={styles.myTable}>
+            <thead>
+              <tr>
+                <th>reason</th>
+                <th>reportType</th>
+                <th>Author</th>
+                <th>Post Slug</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {visibleData.map((report) => (
+                <tr key={report.id}>
+                  <td>{report.reason}</td>
+                  <td>{report.reportType}</td>
+                  <td>{report.account.name}</td>
+                  <td>{report.postId.slug}</td>
+                  <td>{report.status}</td>
+                  <td>{formatDate(report.createdAt)}</td>
+                  <td>
+                  <div className={styles.dropdown}>
+                      <button onClick={() => router.push(`/bai-dang/${report.postId.slug}`)}>View | </button>
+                      <button onClick={() => handleEdit(report.id)}> Edit | </button>
+                      <button onClick={() => handleDelete(report.id)}> Delete</button>
+                  </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className={styles.pagination} >
+            <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>{` ${currentPage} / ${totalPages}`}</span>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              Next
+            </button>
+          </div>
+          {showEditForm && editReport && (
+             <EditReportForm
+             report={editReport}
+             onCancel={() => setShowEditForm(false)}
+             onSubmit={handleEditSubmit}
+           />
+          )}
+    
+  </div>
+  );
+};
+
+Home.Layout = AdminLayout;
+Home.sidebarRight = true;
+Home.SidebarLeft = true;
+Home.requestAuth = false;
+export default Home;

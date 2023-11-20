@@ -22,6 +22,15 @@ interface Post {
   voteCount: number;
   createdAt: string;
 }
+interface Report {
+  id: number;
+  reason: string;
+  reportType: string;
+  account: { name: string };
+  postId: { slug: string };
+  status: string;
+  createdAt: string;
+}
 const Home: NextPageWithLayout = () => {
   const [data, setData] = useState<Post[]>([]);
   const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDk4OTA5MX0.KWqbqJo2fH2KeZj7tzMm6N01wpv6lId4931sYv3ACyU');

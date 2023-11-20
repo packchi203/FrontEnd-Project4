@@ -1,18 +1,13 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import {
-  BellIcon,
-  EllipsisHorizontalIcon,
-  ChevronDownIcon,
   FlagIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline'
 import { ComponentRequestAuth } from './layouts/common'
 import HeroIcon from './hero_icon'
-import { postApi, commentApi } from '@/api-client'
 import { useAuth, useBookmarks } from '@/hooks'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Report } from '@/components/report'
 import { Menu, Transition } from '@headlessui/react'
 
 interface PropsComponent {
@@ -27,7 +22,6 @@ export function FunctionallyButtons({
 }: PropsComponent) {
   const router = useRouter()
   const [statusBookmark, setStatusBookmark] = useState(isBookmark)
-  const [openReport, setOpenReport] = useState(false)
   const { profile, fistLoading } = useAuth()
   const [load, setLoad] = useState(false)
   const [share, setShare] = useState(false)
@@ -174,17 +168,11 @@ export function FunctionallyButtons({
           </Transition>
         </Menu>
         <ComponentRequestAuth>
-          <button className='flex items-center mr-2 text-sm p-1 text-gray-500 hover:bg-gray-200 rounded-sm'
-             onClick={() =>  setOpenReport(true)}
-             >
+          <button className='flex items-center mr-2 text-sm p-1 text-gray-500 hover:bg-gray-200 rounded-sm'>
             <FlagIcon className='w-5 h-5 text-gray-400' />
             <span className='ml-1 font-medium hidden md:block'>Báo cáo</span>
           </button>
         </ComponentRequestAuth>
-        <Report
-        openModel={openReport}
-        handleOpen={(value: boolean) => setOpenReport(value)}
-      />
       </div>
     </>
   )

@@ -35,7 +35,7 @@ const Home: NextPageWithLayout = () => {
   const visibleData = filteredData.slice(startIndex, endIndex);
   const [showConfirmationBox, setShowConfirmationBox] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-
+  const [selectedRole, setSelectedRole] = useState<string>('ALL');
   
 
   useEffect(() => {
@@ -43,7 +43,8 @@ const Home: NextPageWithLayout = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/admin/accounts', {
+      const roleQueryParam = selectedRole !== 'ALL' ? `&role=${selectedRole}` : '';
+      const response = await fetch(`http://localhost:8080/api/admin/accounts?${roleQueryParam}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,6 +60,9 @@ const Home: NextPageWithLayout = () => {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+  };
+  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedRole(e.target.value);
   };
   const handleDelete = (userId: number) => {
     setSelectedUserId(userId);
@@ -167,8 +171,10 @@ const Home: NextPageWithLayout = () => {
     }
   };
   const handleSearch = () => {
-    const filtered = data.filter((user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = data.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedRole === 'ALL' || user.role === selectedRole)
     );
     setFilteredData(filtered);
   };
@@ -215,8 +221,20 @@ const Home: NextPageWithLayout = () => {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className={styles.searchButton} onClick={handleSearch}>Search</button>
+                <select
+                  id="roleFilter"
+                  value={selectedRole}
+                  onChange={handleRoleChange}
+                >
+                  <option value="ALL">All Roles</option>
+                  <option value="ADMIN">Admin</option>
+                  <option value="USER">User</option>
+                </select>
+                <button className={styles.searchButton} onClick={handleSearch}>
+                  Search
+                </button>
               </div>
+
               <div className={styles.rowsPerPageContainer}>
                 <label htmlFor="rowsPerPage">Rows per page:</label>
                 <select

@@ -172,12 +172,19 @@ export function Answer({
                 )}>
                 <div className='flex items-center justify-between'>
                   <div className='flex items-center'>
-                    <Link href={`/nguoi-dung/${account.username}`}>
+                  <Link href={`/nguoi-dung/${account.username}`}>
                       <a className='flex item-center mr-2'>
-                        <img
-                          src={account.imageUrl}
-                          className='h-6 w-6 rounded-full mr-2'
-                        />
+                        {account.imageUrl ? (
+                          <img
+                            src={account.imageUrl}
+                            className='h-6 w-6 rounded-full mr-2'
+                            alt={account.name}
+                          />
+                        ) : (
+                          <div className='h-6 w-6 rounded-full flex justify-center items-center bg-yellow-600 text-white mr-2'>
+                            {account.name[0]}
+                          </div>
+                        )}
                         {account.name}
                       </a>
                     </Link>

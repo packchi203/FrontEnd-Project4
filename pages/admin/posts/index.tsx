@@ -8,7 +8,7 @@ import ConfirmationBox from './confirm';
 
 import styles from './edit_account.module.css'; 
 import toast from 'react-hot-toast';
-
+import { EyeIcon,PencilIcon,TrashIcon } from '@heroicons/react/24/outline';
 
 interface Post {
   id: number;
@@ -136,44 +136,7 @@ const Home: NextPageWithLayout = () => {
     // Hide the confirmation box
     setShowConfirmationBox(false);
   };
-  const handleCreateSubmit = async (newPost: Post) => {
-    try {
-      const response = await fetch('http://localhost:8080/api/admin/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newPost),
-      });
 
-      if (!response.ok) {
-        // Display error toast if the creation fails
-        toast.error(`Error creating post: ${response.statusText}`, {
-          icon: '❌',
-        });
-        return;
-      }
-
-      // Update the data and filteredData with the created post
-      setData((prevData) => [newPost, ...prevData]);
-      setFilteredData((prevFilteredData) => [newPost, ...prevFilteredData]);
-
-      // Display success toast
-      toast.success('Post created successfully!', {
-        icon: '✅',
-      });
-
-      // Close the create form
-      setShowCreateForm(false);
-    } catch (error) {
-      // Display error toast if an exception occurs
-      console.error('Error creating post:', error);
-      toast.error('An error occurred while creating the post.', {
-        icon: '❌',
-      });
-    }
-  };
 
   const handleEdit = (postId: number) => {
     const postToEdit = data.find((post) => post.id === postId);
@@ -185,7 +148,7 @@ const Home: NextPageWithLayout = () => {
   const handleEditSubmit = async (updatedPost: Post) => {
     try {
       const response = await fetch(`http://localhost:8080/api/admin/posts/${updatedPost.id}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -316,10 +279,16 @@ const Home: NextPageWithLayout = () => {
                   <td>{formatDate(post.createdAt)}</td>
                   <td>
                   <div className={styles.dropdown}>
-                      <button onClick={() => router.push(`/bai-dang/${post.slug}`)}>View | </button>
-                      <button onClick={() => handleEdit(post.id)}> Edit | </button>
-                      <button onClick={() => handleDelete(post.id)}> Delete</button>
-                  </div>
+                      <button onClick={() => router.push(`/bai-dang/${post.slug}`)}>
+                        <EyeIcon className='w-4 h-4 text-gray-600 mr-1' />
+                      </button>
+                      <button onClick={() => handleEdit(post.id)}>
+                        <PencilIcon className='w-4 h-4 text-gray-600 mr-1' />
+                      </button>
+                      <button onClick={() => handleDelete(post.id)}>
+                        <TrashIcon className='w-4 h-4 text-red-600 mr-1' />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

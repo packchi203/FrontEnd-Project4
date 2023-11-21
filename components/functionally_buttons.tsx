@@ -82,9 +82,17 @@ export function FunctionallyButtons({ id, subject, isBookmark }: PropsComponent)
       console.error('Invalid report data');
       return;
     }
+
     const accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDk4OTA5MX0.KWqbqJo2fH2KeZj7tzMm6N01wpv6lId4931sYv3ACyU';
 
-  
+    if (!profile?.name) {
+      // Show a toast message indicating that the user needs to log in
+      toast.error('Bạn cần đăng nhập trước khi báo cáo.', {
+        icon: '❌',
+      });
+      return;
+    }
+
     // Prepare the report data
     const reportData = {
       postId: id,

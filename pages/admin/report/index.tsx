@@ -9,7 +9,7 @@ import ConfirmationBox from './confirm';
 import styles from './edit_account.module.css'; 
 import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { EyeIcon,PencilIcon,TrashIcon } from '@heroicons/react/24/outline';
 
 
 interface Report {
@@ -292,10 +292,16 @@ const Home: NextPageWithLayout = () => {
                   <td>{formatDate(report.createdAt)}</td>
                   <td>
                   <div className={styles.dropdown}>
-                      <button onClick={() => router.push(`/bai-dang/${report.postId.slug}`)}>View | </button>
-                      <button onClick={() => handleEdit(report.id)}> Edit | </button>
-                      <button onClick={() => handleDelete(report.id)}> Delete</button>
-                  </div>
+  <button onClick={() => router.push(`/bai-dang/${report.postId.slug}`)}>
+    <EyeIcon className="w-4 h-4 text-gray-600 mr-1" /> 
+  </button>
+  <button onClick={() => handleEdit(report.id)}>
+    <PencilIcon className="w-4 h-4 text-gray-600 mr-1" /> 
+  </button>
+  <button onClick={() => handleDelete(report.id)}>
+    <TrashIcon className="w-4 h-4 text-red-500 mr-1" /> 
+  </button>
+</div>
                   </td>
                 </tr>
               ))}

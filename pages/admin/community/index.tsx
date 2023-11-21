@@ -10,7 +10,7 @@ import styles from './edit_account.module.css';
 import toast from 'react-hot-toast';
 import CreateTagForm from './create_tag';
 
-
+import { EyeIcon,PencilIcon,TrashIcon ,PlusIcon} from '@heroicons/react/24/outline';
 interface Tag {
   id: number;
   name: string,
@@ -250,7 +250,11 @@ const Home: NextPageWithLayout = () => {
   return (
       <div className={styles.formContainer} >
               <h1>Community List</h1>
-              <button className={styles.searchButton} onClick={() => setShowCreateForm(true)}>Create Community</button>
+              <button className={styles.searchButton} onClick={() => setShowCreateForm(true)}>
+              <PlusIcon
+                  className='-ml-1 mr-2 h-5 w-5 text-gray-500 dark:text-gray-100'
+                  aria-hidden='true'
+                />Create Community</button>
 
             <div  className={styles.topTable}  >
             {showConfirmationBox && (
@@ -306,10 +310,16 @@ const Home: NextPageWithLayout = () => {
                   <td>{formatDate(tag.createdAt)}</td>
                   <td>
                   <div className={styles.dropdown}>
-                      <button onClick={() => router.push(`/tag/${tag.name}`)}>View | </button>
-                      <button onClick={() => handleEdit(tag.id)}> Edit | </button>
-                      <button onClick={() => handleDelete(tag.id)}> Delete</button>
-                  </div>
+  <button onClick={() => router.push(`/tag/${tag.name}`)}>
+    <EyeIcon className="w-4 h-4 text-gray-600 mr-1" /> 
+  </button>
+  <button onClick={() => handleEdit(tag.id)}>
+    <PencilIcon className="w-4 h-4 text-gray-600 mr-1" /> 
+  </button>
+  <button onClick={() => handleDelete(tag.id)}>
+    <TrashIcon className="w-4 h-4 text-red-500 mr-1" /> 
+  </button>
+</div>
                   </td>
                 </tr>
               ))}

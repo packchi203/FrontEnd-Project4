@@ -8,8 +8,7 @@ import ConfirmationBox from './confirm';
 
 import styles from './edit_account.module.css'; 
 import toast from 'react-hot-toast';
-
-
+import { EyeIcon,PencilIcon,TrashIcon } from '@heroicons/react/24/outline';
 interface User {
   id: number;
   name: string;
@@ -274,10 +273,17 @@ const Home: NextPageWithLayout = () => {
                   <td>{formatDate(user.createdAt)}</td>
                   <td>
                   <div className={styles.dropdown}>
-                      <button onClick={() => router.push(`/nguoi-dung/${user.username}`)}>View | </button>
-                      <button onClick={() => handleEdit(user.id)}> Edit | </button>
-                      <button onClick={() => handleDelete(user.id)}> Delete</button>
-                  </div>
+  <button onClick={() => router.push(`/nguoi-dung/${user.username}`)}>
+    <EyeIcon className="w-4 h-4 text-gray-600 mr-1" /> 
+  </button>
+  <button onClick={() => handleEdit(user.id)}>
+    <PencilIcon className="w-4 h-4 text-gray-600 mr-1" /> 
+  </button>
+  <button onClick={() => handleDelete(user.id)}>
+    <TrashIcon className="w-4 h-4 text-red-500 mr-1" /> 
+  </button>
+</div>
+
                   </td>
                 </tr>
               ))}

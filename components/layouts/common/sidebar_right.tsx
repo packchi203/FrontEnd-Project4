@@ -6,6 +6,7 @@ import { useStore } from '@/store'
 import { StarIcon } from '@heroicons/react/24/solid'
 import useSWR from 'swr'
 import Link from 'next/link'
+import helo from '../../../public/vang-xoa-nen.png'
 
 type Props = {}
 export function SidebarRight({}: Props) {
@@ -93,34 +94,37 @@ export function SidebarRight({}: Props) {
     }
     return _.map(userFamous, (item, index: any) => (
       <li
-        key={item?.username}
-        className='w-full py-2 px-1 border-b dark:border-gray-500 hover:bg-white dark:hover:bg-slate-800 text-sm hover:cursor-pointer'>
-        <div className='flex items-center'>
-          <div className='relative'>
-
-          <img src={item?.avatar} className=' w-8 h-8 rounded-full mr-3' />
-          {/* {index == 0 && <StarIcon className='h-5 w-5 ml-1 text-yellow-500 absolute -top-1 right-1 ' />} */}
-
-          </div>
-          <div>
-            <div className='flex items-center text-xs text-gray-500 dark:text-gray-100'>
-              <span className='mr-1'>{index + 1}</span>
-              <span className='mr-1'>·</span>
-              <span>Nổi bật </span>
-              {index == 0 && <StarIcon className='h-3 w-3 ml-1 text-yellow-500' />}
+      key={item?.username}
+      className='w-full py-2 px-1 border-b dark:border-gray-500 hover:bg-white dark:hover:bg-slate-800 text-sm hover:cursor-pointer'>
+      <div className='flex items-center'>
+        <div className='relative'>
+          {item?.avatar ? (
+            <img src={item?.avatar} className='w-8 h-8 rounded-full mr-3' />
+          ) : (
+            <div className='w-8 h-8 rounded-full mr-3 bg-yellow-600 text-white flex justify-center items-center'>
+              {item?.name[0]}
             </div>
-            <Link href={`/nguoi-dung/${item?.username}`}>
-              <a>
-                <h3 className='  font-semibold hover:underline '>
-                  {item?.name}
-                </h3>
-              </a>
-            </Link>
-
-            <div className=' text-orange-600'>{item?.reputation} Điểm</div>
-          </div>
+          )}
+    {index === 0 && (  <img src="/vang-xoa-nen.png" alt="Star Icon" className="h-5 w-5 ml-1text-yellow-500 absolute -top-1 right-1"  /> )}
+       {index === 1 && (  <img src="/bac-xoa-nen.png" alt="Star Icon" className="h-5 w-5 ml-1 text-yellow-500 absolute -top-1 right-1"  /> )}
+       {index === 2 && (  <img src="/dong-xoa-nen.png" alt="Star Icon" className="h-5 w-5 ml-1 text-yellow-500 absolute -top-1 right-1"  /> )}
         </div>
-      </li>
+        <div>
+          <div className='flex items-center text-xs text-gray-500 dark:text-gray-100'>
+            <span className='mr-1'>{index + 1}</span>
+            <span className='mr-1'>·</span>
+            <span>Nổi bật </span>
+            {index === 0 && <StarIcon className='h-3 w-3 ml-1 text-yellow-500' />}
+          </div>
+          <Link href={`/nguoi-dung/${item?.username}`}>
+            <a>
+              <h3 className='font-semibold hover:underline'>{item?.name}</h3>
+            </a>
+          </Link>
+          <div className='text-orange-600'>{item?.reputation} Điểm</div>
+        </div>
+      </div>
+    </li>
     ))
   }
   return (

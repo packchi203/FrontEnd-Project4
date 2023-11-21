@@ -17,6 +17,7 @@ interface Report {
   account: { name: string };
   postId: { slug: string };
   status: string;
+  reportStatus: string;
   createdAt: string;
 }
 const Home: NextPageWithLayout = () => {
@@ -131,8 +132,8 @@ const Home: NextPageWithLayout = () => {
   const handleEditSubmit = async (updatedReport: Report) => {
     try {
       console.log('Dữ liệu được PUT lên:', updatedReport); 
-      const { reason, reportType, status } = updatedReport;
-      const updatedData = { reason, reportType, status };
+      const { reason, reportType, reportStatus ,status } = updatedReport;
+      const updatedData = { reason, reportType, reportStatus, status };
       const response = await fetch(`http://localhost:8080/api/reports/${updatedReport.id}`, {
         method: 'PUT',
         headers: {
@@ -144,7 +145,7 @@ const Home: NextPageWithLayout = () => {
   
       if (!response.ok) {
         // Hiển thị toast lỗi nếu việc cập nhật thất bại
-        console.error(`Error updating report: ${response.statusText}`);
+        // console.error(`Error updating report: ${response.statusText}`);
         toast.error(`Error updating report: ${response.statusText}`, {
           icon: '❌',
         });

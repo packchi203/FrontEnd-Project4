@@ -9,6 +9,7 @@ interface Report {
   account: { name: string };
   postId: { slug: string };
   status: string;
+  reportStatus: string;
   createdAt: string;
 }
 
@@ -25,7 +26,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, onCancel, onSub
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    if (name === 'status' && updatedReport.status === 'RESOLVED' && value === 'PENDING') {
+    if (name === 'reportStatus' && updatedReport.reportStatus === 'RESOLVED' && value === 'PENDING') {
       toast.error('Cannot change status from RESOLVED to PENDING.', {
         icon: '❌',
       });
@@ -60,7 +61,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, onCancel, onSub
   return (
     <div className={styles.editUserModal} style={modalStyles}>
       <form onSubmit={handleSubmit} className={styles.editUserForm} style={formStyles}>
-        {error && <p className={styles.error}>{error}</p>}
+        {/* {error && <p className={styles.error}>{error}</p>}
         <label htmlFor="reason">Reason:</label>
         <input
           type="text"
@@ -68,9 +69,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, onCancel, onSub
           name="reason"
           value={updatedReport.reason}
           onChange={handleChange}
-        />
+        /> */}
         
-        {updatedReport.status === 'PENDING' && (
+        {/* {updatedReport.reportType === 'SPAM' && (
           <>
             <label htmlFor="reportType">Report Type:</label>
             <select
@@ -88,12 +89,12 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, onCancel, onSub
               <option value="FALSE_CONTENT">FALSE CONTENT</option>
             </select>
           </>
-        )}
+        )} */}
 
-        <label htmlFor="status">Status:</label>
+        <label htmlFor="reportStatus">Status:</label>
         <select
-          id="status"
-          name="status"
+          id="reportStatus"
+          name="reportStatus"
           value={updatedReport.status}
           onChange={handleChange}
         >

@@ -10,11 +10,13 @@ import { useAuth, useBookmarks } from '@/hooks'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Menu, Transition } from '@headlessui/react'
+import ReportFrom from './report_form'
 interface PropsComponent {
   id: number
   isBookmark: boolean
   subject: string
 }
+
 export function FunctionallyButtons({
   id,
   subject,
@@ -26,13 +28,9 @@ export function FunctionallyButtons({
   const [load, setLoad] = useState(false)
   const [share, setShare] = useState(false)
   const { bookmarkPost, bookmarkComment } = useBookmarks()
-  let linkShare = 'https://itforum.site' + router?.asPath
-console.log('Thông tin người dùng:', profile);
+  const [showReportModal, setShowReportModal] = useState(false);
 
-  useEffect(() => {
-    console.log('ID bài viết:', id);
-    console.log('Uername người dùng:', profile?.username);
-  }, [id, profile?.id]);
+  let linkShare = 'https://itforum.site' + router?.asPath
 
   useEffect(() => {
     console.log('Router:', router);
@@ -82,7 +80,9 @@ console.log('Thông tin người dùng:', profile);
    
    
   }
-  
+  const handleReport = () => {
+    setShowReportModal(true); // Show the report modal
+  };
   return (
     <>
       <div className='flex flex-wrap'>
@@ -176,13 +176,28 @@ console.log('Thông tin người dùng:', profile);
             </Menu.Items>
           </Transition>
         </Menu>
-        <ComponentRequestAuth>
-          <button className='flex items-center mr-2 text-sm p-1 text-gray-500 hover:bg-gray-200 rounded-sm'>
-            <FlagIcon className='w-5 h-5 text-gray-400' />
-            <span className='ml-1 font-medium hidden md:block'>Báo cáo</span>
-          </button>
-        </ComponentRequestAuth>
+      <ComponentRequestAuth>
+        <button
+          className='flex items-center mr-2 text-sm p-1 text-gray-500 hover:bg-gray-200 rounded-sm'
+          onClick={handleReport}
+        >
+          <FlagIcon className='w-5 h-5 text-gray-400' />
+          <span className='ml-1 font-medium hidden md:block'>Báo cáo</span>
+        </button>
+      </ComponentRequestAuth>
       </div>
+       {/* Conditionally render the ReportFrom */}
+       {showReportModal && (
+        <ReportFrom
+          onClose={() => setShowReportModal(false)}
+          onSubmit={(selectedOption, violationReason) => {
+            // Handle the submission of the report (send to server, etc.)
+            console.log('Selected Option:', selectedOption);
+            console.log('Violation Reason:', violationReason);
+          }}
+        />
+      )}
+      
     </>
   )
 }

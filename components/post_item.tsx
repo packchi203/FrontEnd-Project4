@@ -13,7 +13,6 @@ import {
   ChatBubbleLeftRightIcon,
   ChevronUpDownIcon,
   EyeIcon,
-
 } from '@heroicons/react/24/outline';
 
 import Zoom from 'react-medium-image-zoom'
@@ -119,37 +118,40 @@ export function Posts({
                   </a>
                 </Link>
               ))}
-        <div className='mb-3'>
-              <div className='post-details relative mt-2'>
-                {typeof content === 'string' ? (
-                  showMoreContent ? (
-                    <MarkdownPreview source={content} />
-                  ) : (
-                    content.length > 500 ? (
-                      <div>
-                        <MarkdownPreview source={content.slice(0, 200)} />
-                        <button
-                          onClick={() => setShowMoreContent(!showMoreContent)}
-                          className='text-indigo-600 hover:underline cursor-pointer'
-                        >
-                          {showMoreContent ? 'Ẩn đi' : '...Xem thêm'}
-                        </button>
-                      
-                      </div>
-                    ) : (
-                      <MarkdownPreview source={content} />
-                    )
-                  )
-                ) : (
-                  <p>Không có nội dung</p>
-                )}
-              </div>
-            </div>
 
           
             </div>
+                    
+        <div className='mb-3'>
+        <div className='post-details relative mt-2'>
+           
+           {typeof content === 'string' ? (
+             showMoreContent ? (
+               <MarkdownPreview source={content} />
+             ) : (
+               content.length > 500 ? (
+                 <div>
+                   <MarkdownPreview source={content.slice(0, 200)} />
+                   <button
+                     onClick={() => setShowMoreContent(!showMoreContent)}
+                     className='text-indigo-600 hover:underline cursor-pointer'
+                   >
+                     {showMoreContent ? 'Ẩn đi' : '...Xem thêm'}
+                   </button>
+                 
+                 </div>
+               ) : (
+                 <MarkdownPreview source={content} />
+               )
+             )
+           ) : (
+             <p>Không có nội dung</p>
+           )}
+         </div>
+            </div>
             
             <div className='flex justify-between items-end'>
+              
               <div className='flex items-center mt-4'>
                 <a href='#' className='block relative'>
                 

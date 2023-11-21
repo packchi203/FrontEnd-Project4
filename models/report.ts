@@ -1,6 +1,6 @@
 import { Account } from "./account";
 
-export interface Comment {
+export interface Report {
      id:number
      account:Account
      reason:string

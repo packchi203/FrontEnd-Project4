@@ -7,6 +7,7 @@ interface Report {
   reason: string;
   reportType: string;
   account: { name: string };
+  username: string;
   postId: { slug: string };
   status: string;
   reportStatus: string;

@@ -8,6 +8,8 @@ import ConfirmationBox from './confirm';
 
 import styles from './edit_account.module.css'; 
 import toast from 'react-hot-toast';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 interface Report {
@@ -15,6 +17,7 @@ interface Report {
   reason: string;
   reportType: string;
   account: { name: string };
+  username: string;
   postId: { slug: string };
   status: string;
   reportStatus: string;
@@ -50,14 +53,24 @@ const Home: NextPageWithLayout = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (!response.ok) {
         console.error(`Error fetching data: ${response.statusText}`);
         return;
       }
+  
       const result: Report[] = await response.json();
-      setData(result.reverse());
-        setFilteredData(result.reverse());
+  
+      // Sort the data in descending order based on the createdAt property
+      const sortedData = result.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+  
+        return dateB - dateA;
+      });
+  
+      setData(sortedData);
+      setFilteredData(sortedData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -220,7 +233,7 @@ const Home: NextPageWithLayout = () => {
 
               <div className={styles.searchContainer}>
                 <input
-                  placeholder='Search by Name:'
+                  placeholder='Search by Type:'
                   type="text"
                   id="search"
                   value={searchTerm}
@@ -273,7 +286,7 @@ const Home: NextPageWithLayout = () => {
                 <tr key={report.id}>
                   <td>{report.reason}</td>
                   <td>{report.reportType}</td>
-                  <td>{report.account.name}</td>
+                  <td>{report.username}</td>
                   <td>{report.postId.slug}</td>
                   <td>{report.status}</td>
                   <td>{formatDate(report.createdAt)}</td>

@@ -47,32 +47,38 @@ const Notifications: NextPageWithLayout = (props: Props) => {
     }
     return _.map(notificationFilter, (item: any) => (
   
-        <Link key={item?.id} href={`${item?.redirect_url}`}>
-          <a
-            onClick={() => {
-              if (item?.status === 'NOT_SEEN') {
-                sendNotification(item?.id)
-              }
-            }}
-            className='p-6 bg-white flex  items-center justify-between w-full rounded-lg mb-1 border border-gray-200 dark:bg-gray-800 hover:bg-gray-50 dark:border-gray-700'>
-            <div className='flex items-center'>
-              <img
-                src={item?.interactive_user?.imageUrl}
-                alt={item?.interactive_user?.name}
-                className='h-7 w-7 rounded-full mr-2'
-              />
-              <div>
-                <span className=' font-medium mr-2'>
-                  {item?.interactive_user?.name}
-                </span>{' '}
-                {item.content}
-              </div>
-            </div>
-            {item?.status == 'NOT_SEEN' && (
-              <div className='h-3 w-3 bg-blue-500 rounded-full' />
-            )}
-          </a>
-        </Link>
+      <Link key={item?.id} href={`${item?.redirect_url}`}>
+  <a
+    onClick={() => {
+      if (item?.status === 'NOT_SEEN') {
+        sendNotification(item?.id);
+      }
+    }}
+    className='p-6 bg-white flex  items-center justify-between w-full rounded-lg mb-1 border border-gray-200 dark:bg-gray-800 hover:bg-gray-50 dark:border-gray-700'>
+    <div className='flex items-center'>
+      {item?.interactive_user?.imageUrl ? (
+        <img
+          src={item?.interactive_user?.imageUrl}
+          alt={item?.interactive_user?.name}
+          className='h-7 w-7 rounded-full mr-2'
+        />
+      ) : (
+        <div className='h-7 w-7 rounded-full mr-2 flex justify-center items-center bg-yellow-600 text-white'>
+          {item?.interactive_user?.name[0]}
+        </div>
+      )}
+      <div>
+        <span className=' font-medium mr-2'>
+          {item?.interactive_user?.name}
+        </span>{' '}
+        {item.content}
+      </div>
+    </div>
+    {item?.status == 'NOT_SEEN' && (
+      <div className='h-3 w-3 bg-blue-500 rounded-full' />
+    )}
+  </a>
+</Link>
     ))
   }
   return (

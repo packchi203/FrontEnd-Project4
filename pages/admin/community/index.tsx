@@ -21,7 +21,7 @@ interface Tag {
 }
 const Home: NextPageWithLayout = () => {
   const [data, setData] = useState<Tag[]>([]);
-  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDk4OTA5MX0.KWqbqJo2fH2KeZj7tzMm6N01wpv6lId4931sYv3ACyU');
+  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMTI0NDQ5M30.dbh_DUAHtryyZwE14RUJ_lZuRwHIwnl3Z5_4Krpb0js');
   const [showEditForm, setShowEditForm] = useState(false);
   const [editTag, setEditTag] = useState<Tag | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');

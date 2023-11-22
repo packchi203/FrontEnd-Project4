@@ -33,7 +33,7 @@ interface Report {
 }
 const Home: NextPageWithLayout = () => {
   const [data, setData] = useState<Post[]>([]);
-  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDk4OTA5MX0.KWqbqJo2fH2KeZj7tzMm6N01wpv6lId4931sYv3ACyU');
+  const [token] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMTI0NDQ5M30.dbh_DUAHtryyZwE14RUJ_lZuRwHIwnl3Z5_4Krpb0js');
   const [showEditForm, setShowEditForm] = useState(false);
   const [editPost, setEditPost] = useState<Post | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -61,14 +61,17 @@ const Home: NextPageWithLayout = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (!response.ok) {
         console.error(`Error fetching data: ${response.statusText}`);
         return;
       }
-      const result: Post[] = await response.json();
-      setData(result.reverse());
-        setFilteredData(result.reverse());
+  
+      const result = await response.json();
+      const reversedData = result.reverse();
+  
+      setData(reversedData);
+      setFilteredData(reversedData);
     } catch (error) {
       console.error('Error fetching data:', error);
     }

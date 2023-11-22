@@ -165,7 +165,7 @@ export function Filter({ sortViewPostsBy, sortPostsByTags, sortPopularByTime,han
                 style={styleMultiSelect}
                 closeIcon='close'
                 options={tags}
-                placeholder='Chọn tối đa 4 thẻ...'
+                placeholder='Chọn tối đa 4 cộng đồng'
                 displayValue='name' // Property name to display in the dropdown options
               />
             </div>

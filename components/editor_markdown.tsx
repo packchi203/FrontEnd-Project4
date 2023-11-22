@@ -35,7 +35,7 @@ export function EditorMarkdown({value, onChange, Option }: EditorMarkdownProps) 
         '|',
         'unordered-list',
         'ordered-list',
-        // 'table',
+        'table',
         '|',
         'upload-image',
         'link',

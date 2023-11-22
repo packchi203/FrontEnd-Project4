@@ -28,7 +28,7 @@ export function Content({ title }: ContentProps) {
   const [dashboardData, setDashboardData] = useState<Dashboard | null>(null);
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [tags, setTags] = useState<TagModel[]>([]);
-  const [accessToken, setAccessToken] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMDk4OTA5MX0.KWqbqJo2fH2KeZj7tzMm6N01wpv6lId4931sYv3ACyU'); // Thay YOUR_ACCESS_TOKEN bằng access token của bạn
+  const [accessToken, setAccessToken] = useState<string>('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiYWNoY2hpMjAwM3ZuQGdtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6IkFQVEVDSCIsImV4cCI6MTcwMTI0NDQ5M30.dbh_DUAHtryyZwE14RUJ_lZuRwHIwnl3Z5_4Krpb0js'); // Thay YOUR_ACCESS_TOKEN bằng access token của bạn
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {

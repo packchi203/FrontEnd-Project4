@@ -226,7 +226,7 @@ const EditPost: NextPageWithLayout = (props: PageProps) => {
                     className={classNames(
                       'w-full bg-transparent h-20 text-2xl md:text-4xl font-bold p outline-none'
                     )}
-                    placeholder='Nhập Tiêu Đề Câu Hỏi...'
+                    placeholder='Nhập Tiêu Đề'
                   />
                   <div className='h-30 my-3 w-full'>
                     <div className='Multiselect'>
@@ -248,7 +248,7 @@ const EditPost: NextPageWithLayout = (props: PageProps) => {
                         style={styleMultiSelect}
                         closeIcon='close'
                         options={tags}
-                        placeholder='Chọn tối đa 4 thẻ...'
+                        placeholder='Chọn tối đa 4 cộng đồng...'
                         displayValue='name' // Property name to display in the dropdown options
                       />
                     </div>

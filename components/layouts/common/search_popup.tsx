@@ -239,7 +239,7 @@ export function SearchPopup(props: any) {
                         sort == TAG_SEARCH_SORT &&
                           'bg-white dark:bg-gray-200 hover:bg-white border font-medium dark:text-black'
                       )}>
-                      Thẻ
+                      Cộng đồng
                     </button>
                   </div>
                   <div className='mb-3 flex justify-between'>
